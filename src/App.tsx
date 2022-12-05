@@ -32,9 +32,7 @@ function App() {
   }, []);
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // if not firefox
     drawRangeBackground(e.currentTarget);
-
     setCharLength(Number(e.currentTarget.value));
   };
 

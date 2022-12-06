@@ -1,4 +1,5 @@
 import { ChangeEvent, useState, useLayoutEffect, useRef } from 'react';
+import InputCheckbox from './InputCheckbox';
 import iconCopy from './assets/images/icon-copy.svg';
 
 const CHAR_LENGTH_MIN = 1;
@@ -10,7 +11,6 @@ const CHAR_LENGTH_MAX = 20;
  * See https://stackoverflow.com/questions/18389224/how-to-style-html5-range-input-to-have-different-color-before-and-after-slider
  */
 function drawRangeBackground(rangeEl: HTMLInputElement) {
-  console.log(rangeEl.value, rangeEl.min, rangeEl.max);
   const [value, min, max] = [rangeEl.value, rangeEl.min, rangeEl.max].map(
     Number
   ); // Cast to numbers
@@ -20,10 +20,35 @@ function drawRangeBackground(rangeEl: HTMLInputElement) {
   rangeEl.style.background = newBackground;
 }
 
+type Options = {
+  charLength: number;
+  includeUppercase: boolean;
+  includeLowercase: boolean;
+  includeNumbers: boolean;
+  includeSymbols: boolean;
+};
+
+const defaultOptions: Options = {
+  charLength: 10,
+  includeUppercase: false,
+  includeLowercase: false,
+  includeNumbers: false,
+  includeSymbols: false,
+};
+
+type CheckboxOptions = Omit<Options, 'charLength'>;
+
 function App() {
   const [password, setPassword] = useState('a2Vsj@)3n');
-  const [charLength, setCharLength] = useState(10);
+  const [options, setOptions] = useState<Options>(defaultOptions);
   const rangeEl = useRef<HTMLInputElement>(null);
+  const {
+    charLength,
+    includeUppercase,
+    includeLowercase,
+    includeNumbers,
+    includeSymbols,
+  } = options;
 
   useLayoutEffect(() => {
     if (rangeEl.current !== null) {
@@ -33,8 +58,18 @@ function App() {
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
     drawRangeBackground(e.currentTarget);
-    setCharLength(Number(e.currentTarget.value));
+    setOptions({ ...options, charLength: Number(e.currentTarget.value) });
   };
+
+  const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.value);
+    setOptions({
+      ...options,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+
+  //
 
   return (
     <main className="w-9/12 max-w-lg">
@@ -62,6 +97,7 @@ function App() {
           <input
             type="range"
             className="input-range w-full"
+            name="charLength"
             id="charLength"
             step="1"
             ref={rangeEl}
@@ -69,6 +105,32 @@ function App() {
             max={CHAR_LENGTH_MAX}
             value={charLength}
             onChange={handleRangeChange}
+          />
+        </div>
+        <div className="space-y-2">
+          <InputCheckbox<'includeUppercase', Options>
+            id="includeUppercase"
+            value={includeUppercase}
+            label="Include Uppercase Letters"
+            handleChange={handleOptionChange}
+          />
+          <InputCheckbox
+            id="includeLowercase"
+            value={includeLowercase}
+            label="Include Lowercase Letters"
+            handleChange={handleOptionChange}
+          />
+          <InputCheckbox
+            id="includeNumbers"
+            value={includeNumbers}
+            label="Include Numbers"
+            handleChange={handleOptionChange}
+          />
+          <InputCheckbox
+            id="includeSymbols"
+            value={includeSymbols}
+            label="Include Symbols"
+            handleChange={handleOptionChange}
           />
         </div>
       </form>

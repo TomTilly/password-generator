@@ -90,3 +90,9 @@
     @apply border-2 border-solid border-neon-green bg-very-dark-grey;
   }
 }
+
+@layer utilities {
+  .ligatures-none {
+    font-variant-ligatures: none;
+  }
+}

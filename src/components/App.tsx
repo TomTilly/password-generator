@@ -138,6 +138,7 @@ function App() {
   const [options, setOptions] =
     useState<ValidateShape<typeof defaultOptions, Options>>(defaultOptions);
   const [currentStrength, setCurrentStrength] = useState<StrengthLevels>();
+  const [error, setError] = useState<string>();
   const { charLength } = options;
 
   const handleRangeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -158,17 +159,20 @@ function App() {
     const selectedCharTypes = getSelectedCharTypes(options);
 
     if (selectedCharTypes.length < 1)
-      return console.log('No character types selected.');
+      return setError('No character types selected');
     if (selectedCharTypes.length > charLength)
-      return console.log('Character length not long enough.');
+      return setError('Character length not long enough');
 
+    setError('');
     // Generate password from selected options
     const password = generatePassword(charLength, selectedCharTypes);
     setPassword(password);
 
     const newPasswordStrength = passwordStrength(password).id;
-    if (!(newPasswordStrength in StrengthLevels))
+    if (!(newPasswordStrength in StrengthLevels)) {
+      setError('Encountered an internal error');
       throw new Error(`Password strength not in StrengthLevels enum`);
+    }
     setCurrentStrength(newPasswordStrength);
   };
 
@@ -217,6 +221,7 @@ function App() {
           />
           {createCheckboxes()}
           <StrengthMeter currentStrength={currentStrength} />
+          {error ? <div className="text-orange">{error}</div> : null}
           <SubmitButton className="flex w-full items-center justify-center gap-6 ">
             Generate
             <IconArrowRight />

@@ -7,6 +7,14 @@ module.exports = {
       tsconfigRootDir: __dirname,
       project: ['./tsconfig.json'],
    },
+   overrides: [
+      {
+         files: ['./tsconfig.node.json'],
+         parserOptions: {
+            project: ['./tsconfig.node.json']
+         }
+      }
+   ],
    plugins: ['@typescript-eslint', 'prettier'],
    extends: [
       'eslint:recommended',

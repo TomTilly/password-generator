@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler } from 'react';
-import { ReactComponent as IconCheck } from './assets/images/icon-check.svg';
+import { ReactComponent as IconCheck } from '@assets/images/icon-check.svg';
 
 export default function InputCheckbox({
   value,

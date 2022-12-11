@@ -11,3 +11,29 @@ export const randomNum = (min: number, max: number) => {
 export const isNumInRange = (num: number, min: number, max: number) => {
   return num >= min && num <= max;
 };
+
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */
+export const debounce = <T extends (...args: Parameters<T>) => ReturnType<T>>(
+  callback: T,
+  wait: number
+) => {
+  let timeoutId: number;
+  return (...args: Parameters<T>): void => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, wait);
+  };
+};
+/* eslint-enable */
+
+/* ============= */
+/* Utility types */
+/* ============= */
+
+// https://fettblog.eu/typescript-match-the-exact-object-shape/
+export type ValidateShape<T, Shape> = T extends Shape
+  ? Exclude<keyof T, keyof Shape> extends never
+    ? T
+    : never
+  : never;

@@ -37,7 +37,7 @@ export default function StrengthMeter({
 }) {
   const hasStrength = currentStrength !== undefined;
   return (
-    <div className="item-stretch flex justify-between bg-very-dark-grey p-6">
+    <div className="item-stretch flex flex-wrap justify-between gap-4 bg-very-dark-grey p-6">
       <div className="font-bold uppercase text-grey">Strength</div>
       <div
         className={`flex gap-1.5 ${
@@ -53,14 +53,14 @@ export default function StrengthMeter({
           if (!hasStrength || strengthLevel > currentStrength)
             return (
               <div
-                className="border-1 min-h-4 w-2 border border-solid border-almost-white bg-transparent"
+                className="border-1 min-h-[1.5rem] w-2 border border-solid border-almost-white bg-transparent"
                 key={strengthLevel}
               />
             );
 
           return (
             <div
-              className="border-1 min-h-4 w-2 border border-solid border-current bg-current"
+              className="border-1 min-h-[1.5rem] w-2 border border-solid border-current bg-current"
               key={strengthLevel}
             />
           );

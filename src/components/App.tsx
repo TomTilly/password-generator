@@ -118,6 +118,7 @@ const getSelectedCharTypes = (options: Options): CharTypes[] => {
   return checkedOptions;
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 function isCheckboxOption(
   maybeOption: any
 ): maybeOption is keyof CheckboxOptions {
@@ -131,6 +132,7 @@ function isCheckboxOption(
   }
   return false;
 }
+/* eslint-enable */
 
 function App() {
   const [password, setPassword] = useState('');

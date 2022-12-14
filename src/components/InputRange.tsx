@@ -8,7 +8,7 @@ import React, { ChangeEvent, useLayoutEffect, useRef } from 'react';
 function drawRangeBackground(rangeEl: HTMLInputElement) {
   const [value, min, max] = [rangeEl.value, rangeEl.min, rangeEl.max].map(
     Number
-  ); // Cast to numbers
+  );
 
   const gradientProgressStop = ((value - min) / (max - min)) * 100;
   const newBackground = `linear-gradient(to right, hsl(var(--neon-green)) 0%, hsl(var(--neon-green)) ${gradientProgressStop}%, hsl(var(--very-dark-grey)) ${gradientProgressStop}%, hsl(var(--very-dark-grey)) 100%`;
